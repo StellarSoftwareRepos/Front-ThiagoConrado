@@ -1,190 +1,212 @@
+"use client";
+
+import { useState } from "react";
+import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
+
 export default function Contato() {
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    telefone: "",
+    mensagem: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Implementar envio do formulário
+    console.log(formData);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      {/* Cabeçalho */}
-      <section className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Entre em Contato</h1>
-        <p className="text-xl text-gray-600">Estamos aqui para ouvir você</p>
-      </section>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header */}
+      <div className="relative bg-indigo-600 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-800 opacity-90"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146923-c433d7bca86b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center opacity-20"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Entre em Contato
+          </h1>
+          <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
+            Estamos aqui para ajudar. Entre em contato conosco através do
+            formulário abaixo ou use nossos canais de comunicação.
+          </p>
+        </div>
+      </div>
 
-      {/* Informações de Contato */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">Informações de Contato</h2>
-          <div className="space-y-4">
-            <div className="flex items-start gap-4">
-              <svg
-                className="w-6 h-6 text-blue-900 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              <div>
-                <h3 className="font-bold mb-1">Endereço</h3>
-                <p>Câmara Municipal</p>
-                <p>Rua da Câmara, 123</p>
-                <p>Cidade - Estado</p>
+      {/* Conteúdo Principal */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Informações de Contato */}
+          <div className="space-y-8">
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Informações de Contato
+              </h2>
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <FiMail className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900">Email</h3>
+                    <p className="mt-1 text-gray-600">
+                      contato@thiagoconrado.com.br
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <FiPhone className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      Telefone
+                    </h3>
+                    <p className="mt-1 text-gray-600">(11) 1234-5678</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <FiMapPin className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      Endereço
+                    </h3>
+                    <p className="mt-1 text-gray-600">
+                      Câmara Municipal de São Paulo
+                      <br />
+                      Viaduto Jacareí, 100 - Centro
+                      <br />
+                      São Paulo - SP
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex items-start gap-4">
-              <svg
-                className="w-6 h-6 text-blue-900 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              <div>
-                <h3 className="font-bold mb-1">Email</h3>
-                <p>contato@vereador.com</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <svg
-                className="w-6 h-6 text-blue-900 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
-              <div>
-                <h3 className="font-bold mb-1">Telefone</h3>
-                <p>(XX) XXXX-XXXX</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <svg
-                className="w-6 h-6 text-blue-900 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <div>
-                <h3 className="font-bold mb-1">Horário de Atendimento</h3>
-                <p>Segunda a Sexta: 9h às 17h</p>
-                <p>Sábado: 9h às 12h</p>
-                <p>Domingo: Fechado</p>
+
+            {/* Horário de Atendimento */}
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Horário de Atendimento
+              </h2>
+              <div className="space-y-4">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Segunda a Sexta</span>
+                  <span className="font-medium text-gray-900">
+                    09:00 - 18:00
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Sábado</span>
+                  <span className="font-medium text-gray-900">
+                    09:00 - 13:00
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Domingo</span>
+                  <span className="font-medium text-gray-900">Fechado</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Formulário de Contato */}
-        <div className="bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">Envie sua Mensagem</h2>
-          <form className="space-y-6">
-            <div>
-              <label
-                htmlFor="nome"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Nome Completo
-              </label>
-              <input
-                type="text"
-                id="nome"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                placeholder="Seu nome"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                placeholder="seu@email.com"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="assunto"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Assunto
-              </label>
-              <select
-                id="assunto"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-              >
-                <option value="">Selecione um assunto</option>
-                <option value="sugestao">Sugestão</option>
-                <option value="reclamacao">Reclamação</option>
-                <option value="elogio">Elogio</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
-            <div>
-              <label
-                htmlFor="mensagem"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Mensagem
-              </label>
-              <textarea
-                id="mensagem"
-                rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                placeholder="Sua mensagem"
-              ></textarea>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
-            >
-              Enviar Mensagem
-            </button>
-          </form>
-        </div>
-      </section>
-
-      {/* Mapa */}
-      <section className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6">Localização</h2>
-        <div className="h-[400px] bg-gray-200 rounded-lg">
-          {/* Aqui você pode adicionar um mapa (Google Maps, por exemplo) */}
-          <div className="w-full h-full flex items-center justify-center text-gray-500">
-            Mapa será carregado aqui
+          {/* Formulário de Contato */}
+          <div className="bg-white rounded-2xl p-8 border border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Envie sua Mensagem
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="nome"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  name="nome"
+                  id="nome"
+                  value={formData.nome}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="telefone"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Telefone
+                </label>
+                <input
+                  type="tel"
+                  name="telefone"
+                  id="telefone"
+                  value={formData.telefone}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="mensagem"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Mensagem
+                </label>
+                <textarea
+                  name="mensagem"
+                  id="mensagem"
+                  rows={4}
+                  value={formData.mensagem}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <FiSend className="mr-2" />
+                  Enviar Mensagem
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

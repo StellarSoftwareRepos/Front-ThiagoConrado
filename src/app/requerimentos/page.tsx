@@ -1,150 +1,232 @@
-export default function Requerimentos() {
-  return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      {/* Cabeçalho */}
-      <section className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Requerimentos e Projetos</h1>
-        <p className="text-xl text-gray-600">
-          Acompanhe as propostas e projetos em tramitação
-        </p>
-      </section>
+"use client";
 
-      {/* Estatísticas */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[
-          { titulo: "Total de Projetos", valor: "45" },
-          { titulo: "Aprovados", valor: "32" },
-          { titulo: "Em Tramitação", valor: "13" },
-        ].map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-lg text-center"
-          >
-            <h3 className="text-xl font-bold mb-2">{stat.titulo}</h3>
-            <p className="text-3xl font-bold text-blue-900">{stat.valor}</p>
+import { useEffect, useState } from "react";
+import {
+  FiCalendar,
+  FiTag,
+  FiFileText,
+  FiCheckCircle,
+  FiClock,
+  FiAlertCircle,
+} from "react-icons/fi";
+import { requerimentos as requerimentosMock } from "@/data/mockData";
+
+interface Requerimento {
+  id: number;
+  titulo: string;
+  descricao: string;
+  dataCriacao: string;
+  status: string;
+  categoria: string;
+}
+
+export default function Requerimentos() {
+  const [requerimentos, setRequerimentos] = useState<Requerimento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState<
+    string | null
+  >(null);
+
+  useEffect(() => {
+    // Simular carregamento
+    setTimeout(() => {
+      setRequerimentos(requerimentosMock);
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  const categorias = [
+    "INFRAESTRUTURA",
+    "SAUDE",
+    "EDUCACAO",
+    "SEGURANCA",
+    "CULTURA",
+    "ESPORTE",
+    "ASSISTENCIA_SOCIAL",
+    "OUTROS",
+  ];
+
+  const requerimentosFiltrados = categoriaSelecionada
+    ? requerimentos.filter((req) => req.categoria === categoriaSelecionada)
+    : requerimentos;
+
+  // Métricas por status
+  const metricas = {
+    total: requerimentos.length,
+    aprovados: requerimentos.filter((req) => req.status === "APROVADO").length,
+    pendentes: requerimentos.filter((req) => req.status === "PENDENTE").length,
+    emAnalise: requerimentos.filter((req) => req.status === "EM_ANALISE")
+      .length,
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header */}
+      <div className="relative bg-indigo-600 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-800 opacity-90"></div>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center opacity-20"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Requerimentos
+          </h1>
+          <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
+            Acompanhe os requerimentos e solicitações para melhorias em nossa
+            cidade.
+          </p>
+        </div>
+      </div>
+
+      {/* Métricas */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Total de Requerimentos */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-indigo-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {metricas.total}
+                </p>
+              </div>
+              <div className="p-3 bg-indigo-50 rounded-full">
+                <FiFileText className="h-6 w-6 text-indigo-600" />
+              </div>
+            </div>
           </div>
-        ))}
-      </section>
+
+          {/* Requerimentos Aprovados */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-green-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Aprovados</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {metricas.aprovados}
+                </p>
+              </div>
+              <div className="p-3 bg-green-50 rounded-full">
+                <FiCheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Requerimentos Pendentes */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-yellow-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Pendentes</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {metricas.pendentes}
+                </p>
+              </div>
+              <div className="p-3 bg-yellow-50 rounded-full">
+                <FiClock className="h-6 w-6 text-yellow-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Requerimentos em Análise */}
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-blue-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Em Análise</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {metricas.emAnalise}
+                </p>
+              </div>
+              <div className="p-3 bg-blue-50 rounded-full">
+                <FiAlertCircle className="h-6 w-6 text-blue-600" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Filtros */}
-      <section className="bg-white p-6 rounded-lg shadow-lg">
-        <div className="flex flex-wrap gap-4 justify-center">
-          {["Todos", "Aprovados", "Em Tramitação", "Arquivados"].map(
-            (status, index) => (
-              <button
-                key={index}
-                className={`px-6 py-2 rounded-full ${
-                  index === 0
-                    ? "bg-blue-900 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {status}
-              </button>
-            )
-          )}
-        </div>
-      </section>
-
-      {/* Lista de Requerimentos */}
-      <section className="space-y-8">
-        {[
-          {
-            numero: "REQ-001/2024",
-            titulo: "Iluminação Pública",
-            tipo: "Requerimento",
-            status: "Aprovado",
-            data: "20/03/2024",
-            descricao:
-              "Solicitação de estudo para instalação de iluminação LED em vias públicas.",
-            votacao: "Unânime",
-          },
-          {
-            numero: "PL-002/2024",
-            titulo: "Programa de Educação Digital",
-            tipo: "Projeto de Lei",
-            status: "Em Tramitação",
-            data: "18/03/2024",
-            descricao:
-              "Criação de programa para inclusão digital nas escolas municipais.",
-            votacao: "Em Análise",
-          },
-          {
-            numero: "REQ-003/2024",
-            titulo: "Pavimentação de Ruas",
-            tipo: "Requerimento",
-            status: "Aprovado",
-            data: "15/03/2024",
-            descricao:
-              "Solicitação de pavimentação asfáltica em vias do bairro central.",
-            votacao: "Unânime",
-          },
-          {
-            numero: "PL-004/2024",
-            titulo: "Centro Cultural",
-            tipo: "Projeto de Lei",
-            status: "Em Tramitação",
-            data: "12/03/2024",
-            descricao:
-              "Criação do centro cultural municipal com biblioteca e salas de aula.",
-            votacao: "Em Análise",
-          },
-        ].map((req, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm font-semibold text-blue-900">
-                    {req.numero}
-                  </span>
-                  <span className="text-sm bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                    {req.tipo}
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">{req.titulo}</h3>
-              </div>
-              <span
-                className={`px-3 py-1 rounded-full text-sm ${
-                  req.status === "Aprovado"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >
-                {req.status}
-              </span>
-            </div>
-            <p className="text-gray-600 mb-4">{req.descricao}</p>
-            <div className="flex justify-between items-center text-sm text-gray-500">
-              <div className="flex gap-4">
-                <span>Data: {req.data}</span>
-                <span>Votação: {req.votacao}</span>
-              </div>
-              <button className="text-blue-900 hover:text-blue-700 font-semibold">
-                Ver Detalhes →
-              </button>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* Paginação */}
-      <section className="flex justify-center gap-2">
-        {[1, 2, 3].map((page) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-wrap gap-2">
           <button
-            key={page}
-            className={`w-10 h-10 rounded-full ${
-              page === 1
-                ? "bg-blue-900 text-white"
+            onClick={() => setCategoriaSelecionada(null)}
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
+              !categoriaSelecionada
+                ? "bg-indigo-600 text-white"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
-            {page}
+            Todos
           </button>
-        ))}
-      </section>
+          {categorias.map((categoria) => (
+            <button
+              key={categoria}
+              onClick={() => setCategoriaSelecionada(categoria)}
+              className={`px-4 py-2 rounded-full text-sm font-medium ${
+                categoriaSelecionada === categoria
+                  ? "bg-indigo-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {categoria.replace("_", " ")}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Requerimentos Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {requerimentosFiltrados.map((requerimento) => (
+            <article
+              key={requerimento.id}
+              className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-indigo-500 transition-colors"
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {requerimento.titulo}
+                  </h2>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      requerimento.status === "PENDENTE"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : requerimento.status === "EM_ANALISE"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
+                  >
+                    {requerimento.status.replace("_", " ")}
+                  </span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-3">
+                  {requerimento.descricao}
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <div className="flex items-center text-sm text-gray-500">
+                    <FiCalendar className="mr-2" />
+                    {new Date(requerimento.dataCriacao).toLocaleDateString(
+                      "pt-BR"
+                    )}
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <FiTag className="mr-2 text-indigo-600" />
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                      {requerimento.categoria.replace("_", " ")}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
