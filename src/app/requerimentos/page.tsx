@@ -59,10 +59,9 @@ export default function Requerimentos() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pb-8 pt-20">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">Requerimentos</h1>
 
-      {/* Contadores */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-sm p-6 border border-blue-100">
           <div className="flex items-center justify-between">
