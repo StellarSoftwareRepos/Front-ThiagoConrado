@@ -32,13 +32,13 @@ export default function Dashboard() {
 
         const [noticiasRes, requerimentosRes, feitosRes] = await Promise.all([
           fetch("http://localhost:8080/api/noticias", {
-            headers: { Authorization: `Bearer ${token}` },
+            // headers: { Authorization: `Bearer ${token}` },
           }),
           fetch("http://localhost:8080/api/requerimentos", {
-            headers: { Authorization: `Bearer ${token}` },
+            // headers: { Authorization: `Bearer ${token}` },
           }),
           fetch("http://localhost:8080/api/feitos", {
-            headers: { Authorization: `Bearer ${token}` },
+            // headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
 
